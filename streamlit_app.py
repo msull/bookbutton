@@ -4,6 +4,41 @@ from random import choice
 
 import streamlit as st
 
+st.set_page_config("Book Button", page_icon="📚")
+
+hide_streamlit_style = """
+                <style>
+                div[data-testid="stToolbar"] {
+                visibility: hidden;
+                height: 0%;
+                position: fixed;
+                }
+                div[data-testid="stDecoration"] {
+                visibility: hidden;
+                height: 0%;
+                position: fixed;
+                }
+                div[data-testid="stStatusWidget"] {
+                visibility: hidden;
+                height: 0%;
+                position: fixed;
+                }
+                #MainMenu {
+                visibility: hidden;
+                height: 0%;
+                }
+                header {
+                visibility: hidden;
+                height: 0%;
+                }
+                footer {
+                visibility: hidden;
+                height: 0%;
+                }
+                </style>
+                """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 
 @st.cache_data()
 def fetch_json(url):
