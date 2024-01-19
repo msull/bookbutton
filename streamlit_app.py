@@ -1,6 +1,6 @@
 import json
 import urllib.request
-from random import Random, choice
+from random import choice
 
 import streamlit as st
 
@@ -27,22 +27,22 @@ class Consts:
 
 def main():
     available_books: dict = fetch_json(Consts.data_url)
-    _, col, _ = st.columns((1, 2, 1))
-    with col:
-        if st.button("BOOK BUTTON", use_container_width=True, type='primary'):
-            st.session_state.book_choice = choice(list(available_books.keys()))
 
+    if st.button("BOOK BUTTON", use_container_width=True, type="primary"):
+        st.session_state.book_choice = choice(list(available_books.keys()))
+
+    _, col, _ = st.columns((1, 2, 1))
+
+    with col:
         if book_choice := st.session_state.get("book_choice"):
             title = book_choice.replace("-", " ").title()
             book = available_books[book_choice]
 
-
             st.header(title)
             if image_name := book["png"]:
-                st.image(Consts.data_url_base + image_name, width=400)
+                st.image(Consts.data_url_base + image_name)
             st.audio(Consts.data_url_base + book["m4a"])
 
 
 if __name__ == "__main__":
     main()
-
