@@ -1,6 +1,7 @@
 #!python
 import json
 import os
+from datetime import datetime
 from pathlib import Path
 import boto3
 
@@ -71,6 +72,21 @@ def main():
     s3_client.upload_file(
         str(json_file_name), bucket_name, PREFIX + json_file_name.name
     )
+
+    cloudfront_client = boto3.client("cloudfront")
+
+    response = cloudfront_client.create_invalidation(
+        DistributionId="E19YBRNT140O6B",
+        InvalidationBatch={
+            "Paths": {
+                "Quantity": 1,
+                "Items": [f"/{PREFIX}*"],  # Invalidate all objects in the distribution
+            },
+            "CallerReference": datetime.now().isoformat(),
+        },
+    )
+
+    print(response)
 
 
 if __name__ == "__main__":
